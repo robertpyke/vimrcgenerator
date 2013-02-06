@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>vimrc generator</title>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css"/> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+        <script type="text/javascript">
+
+            function ValidateForm(sText) 
+            {
+                if(!IsValidTabWidth(generate_form.tabwidth)) 
+                { 
+                  alert('The tab-width value you have specified is invalid') 
+                  generate_form.tabwidth.focus(); 
+                  return false; 
+                } 
+            }  
+
+            function IsValidTabWidth(sText)
+            {
+                var ValidChars = "123456789";
+                var Char;
+                if ((sText.value.length == 0) ||
+                (sText.value == null)) {
+                    return false;
+                }
+                Char = sText.value.charAt(0); 
+                if (ValidChars.indexOf(Char) == -1)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            function ClickedAutoIndent(autoindent)
+            {
+              smartindent = document.generate_form.smartindent;
+
+              if(autoindent.checked == true) {
+                smartindent.disabled = false;
+              } else {
+                smartindent.checked = false;
+                smartindent.disabled = true;
+              }
+            }
+
+            function ClickedIgnoreCase(ignorecase)
+            {
+              smartcase = document.generate_form.smartcase;
+
+              if(ignorecase.checked == true) {
+                smartcase.disabled = false;
+              } else {
+                smartcase.checked = false;
+                smartcase.disabled = true;
+              }
+            }
+        </script>
+
+    </head>
+    <body>
+        <div class="border">
+        <div class="heading">
+            <h2 class="title">
+                ~/.vimrc generator
+            </h2>
+        </div>
+        <div class="intro">
+            <p class="summary">
+                ~/.vimrc generator provides a simple method of generating a .vimrc configuration for vim.      
+            </p>
+            <p class="verbose">
+                The 'vimrc' file is a file that runs when vim is started. It is used to configure vim. Filling out the form below will generate a vimrc file with your specified configuration options. To use the vimrc file, simply save the generated file in your home directory as '.vimrc' (e.g. /home/user/.vimrc).
+            </p>
+        </div>
+        </div>
+        <div class="body">
+        <form name="generate_form" action="/.vimrc" method="get" onsubmit="javascript:return ValidateForm(this)">
+            <div class="vimrc_generator_form">                    
+                 <fieldset class="general">
+                    <legend>General</legend>
+                    <p class="prompt">
+                        <label for="number" title="Show line numbers?">
+                            <input type="checkbox" name="number" id="number"/>
+                            show line numbers
+                        </label>     
+                    </p>
+                    <p class="prompt">
+                        <label title="Show the line and column number of the cursor position?">
+                            <input type="checkbox" name="ruler" id="ruler" checked/>
+                            show cursor position
+                        </label>
+                    </p>
+                </fieldset>
+                <fieldset class="programming">
+                    <legend>Programming</legend>
+                    <p class="prompt">
+                        <label title="Copy indent from current line when starting a new line?">
+                            <input type="checkbox" name="autoindent" id="autoindent" checked  onclick="javascript:return ClickedAutoIndent(this)"/>
+                            auto indent
+                        </label>
+                    </p>
+                    
+                    <p class="prompt">
+                        <label title="Use file-type specific auto-indenting? Works with supported programming languages (incl. most c-like languages).">
+                            <input type="checkbox" name="smartindent" id="smartindent"/>
+                            file-type specific smart auto indent
+                        </label>
+                    </p>
+                </fieldset>
+                <fieldset class="spaces_tabs">
+                    <legend>Spaces/Tabs</legend>
+                    <p class="prompt">
+                        <label title="How many spaces wide should a tab be?">
+                            <input type="text" name="tabwidth" id="tabwidth" value="4" size="2" maxlength="1"/>
+                            tab width
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="Insert multiple spaces instead of a tab when tab is pressed?">
+                            <input type="checkbox" name="expandtab" id="expandtab"/>
+                            use spaces instead of tabs
+                        </label>
+                    </p>
+                </fieldset>
+                 <fieldset class="searching">
+                    <legend>Searching</legend>
+                    <p class="prompt">
+                        <label title="Highlight search results?">
+                            <input type="checkbox" name="highlight_search_results" id="highlight_search_results" checked/>
+                            highlight search results
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="When doing a search, ignore the case of letters?">
+                            <input type="checkbox" name="ignorecase" id="ignorecase" checked onclick="javascript:return ClickedIgnoreCase(this)"/>
+                            ignore case
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="Override the 'ignore case' option if the search pattern contains upper case characters?">
+                            <input type="checkbox" name="smartcase" id="smartcase" checked/>
+                            ignore case only if search pattern is lowercase
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="Clear the search highlight by pressing Enter when in Normal mode (Typing commands)?">
+                            <input type="checkbox" name="clear_nohlsearch" id="clear_nohlsearch" checked/>
+                            clear search highlight by pressing <code>Enter</code>
+                        </label>
+                    </p>
+                </fieldset>
+                <fieldset class="tabbed_editing">
+                    <legend>Tabbed Editing</legend>
+                    <p class="prompt">
+                        <label title="Open a new (empty) tab by pressing CTRL-T? Prompts for name of file to edit.">
+                            <input type="checkbox" name="tabnew" id="tabnew" checked/>
+                            open a new (empty) tab by pressing <code>CTRL-T</code>
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="Open a file in a new tab by pressing CTRL-O? Prompts for name of file to edit">
+                            <input type="checkbox" name="tabfind" id="tabfind" checked/>
+                            open a file in a new tab by pressing <code>CTRL-O</code>
+                        </label>
+                    </p>
+                    <p class="prompt">
+                        <label title="Switch between tabs by pressing Shift-Tab?">
+                            <input type="checkbox" name="gt" id="gt" checked/>
+                            switch between tabs by pressing <code>Shift-Tab</code>
+                        </label>
+                    </p>
+                </fieldset>
+                <fieldset class="tweaks">
+                    <legend>Tweaks</legend>
+                    <p class="prompt">
+                        <label title="Allow backspacing over autoindents and line breaks?">
+                            <input type="checkbox" name="backspace_support" id="backspace_support" checked/>
+                            better backspace support
+                        </label>
+                    </p>
+                </fieldset>
+                <p class="submit">
+                    <input type="submit" value="Generate vimrc"/>
+                </p>
+            </div>
+        </form>
+        </div>
+        <div class="footer">
+            <p>Written by <a href="http://robertpyke.com">Robert Pyke</a><br />
+              <a href="http://code.google.com/appengine/">
+                <img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif"
+                alt="Powered by Google App Engine" />
+              </a>
+            </p>
+        </div>
+    </body>
+</html>
